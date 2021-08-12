@@ -16,12 +16,4 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::post('/', [AccountController::class, 'create'])->name('account.store');
-Route::put('/', [AccountController::class, 'update'])->name('account.update');
-Route::post('/transfer', [TransactionController::class, 'create'])->name('transaction.store');
-Route::post('/transfer/confirm', [TransactionController::class, 'confirm'])->name('transaction.confirm');
-Route::get('/transaction/{id}/{limit?}', [TransactionController::class, 'show'])->name('transaction.show');
-
-Route::get('/profiles', [ProfilesController::class, 'show'])->name('profiles.show');
-Route::put('/profiles', [ProfilesController::class, 'update'])->name('profiles.update');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
