@@ -65,8 +65,9 @@
                                     <h4 class="mb-0" style="word-break: break-all">{{ $task->task_name }}</h4>
                                 </div>
                                 <div class="col-md-3 text-right d-flex">
-                                    <button type="button" class="btn btn-primary mr-3" data-bs-toggle="modal"
-                                        data-bs-target="#Update">
+                                    <button type="button"
+                                        onclick="{{ $update_task_name = $task->task_name }}{{ $update_task_id = $task->task_id; }}"
+                                        class="btn btn-primary mr-3" data-bs-toggle="modal" data-bs-target="#Update">
                                         Update
                                     </button>
                                     <button type="submit" class="btn btn-danger">
@@ -99,10 +100,11 @@
                                 class="col-md-4 col-form-label text-md-right">{{ __('Task Name') }}</label>
 
                             <div class="col-md-6">
+                                <input id="task_id" class="form-control" value="{{ $update_task_id }}" hidden
+                                    name="task_id">
                                 <input id="task_name" type="text"
                                     class="form-control @error('task_name') is-invalid @enderror"
-                                    value="{{ old('task_name') ?? $update_task }}" name="task_name" required
-                                    autofocus />
+                                    value="{{ $update_task_name }}" name="task_name" required autofocus />
 
                                 @error('task_name')
                                 <span class="invalid-feedback" role="alert">
@@ -125,4 +127,12 @@
         </div>
     </div>
 </div>
+@if ($errors->any())
+<script>
+    var myModal = new bootstrap.Modal(document.getElementById('Update'), {
+        keyboard: false
+    })
+    myModal.show()
+</script>
+@endif
 @endsection
