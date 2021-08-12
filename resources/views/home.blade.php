@@ -64,13 +64,13 @@
                                 <div class="col-md-9 d-flex align-items-center">
                                     <h4 class="mb-0" style="word-break: break-all">{{ $task->task_name }}</h4>
                                 </div>
-                                <div class="col-md-3 text-right d-flex">
-                                    <button type="button"
+                                <div class="col-md-3 text-right d-flex align-items-center">
+                                    <button type="button" style="height: 2.5rem"
                                         onclick="{{ $update_task_name = $task->task_name }}{{ $update_task_id = $task->task_id; }}"
                                         class="btn btn-primary mr-3" data-bs-toggle="modal" data-bs-target="#Update">
                                         Update
                                     </button>
-                                    <button type="submit" class="btn btn-danger">
+                                    <button type="submit" style="height: 2.5rem" class="btn btn-danger">
                                         Delete
                                     </button>
                                 </div>
