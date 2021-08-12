@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
 use App\Models\User;
+use App\Models\Todolist;
 use Illuminate\Support\Facades\Auth;
 
-class AccountController extends Controller
+class TodoListController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,22 +24,15 @@ class AccountController extends Controller
             'account_name' => ['required', 'string', 'max:255', 'unique:accounts,account_name', 'regex:/^[A-Za-z][\sa-zA-Z0-9_-]+$/'],
             'account_type' => ['required', 'string', 'max:255'],
         ]);
-        Account::create([
-            'user_id' => Auth::id(),
-            'account_id' => $this->generateUniqueId(),
-            'account_name' => request()->account_name,
-            'account_type' => request()->account_type,
-            'balance' => 0,
-        ]);
 
-        return redirect('/')->with('status', 'Successfully Created Bank Account!');
+        return redirect('/')->with('status', 'Successfully Created Bank Todolist!');
     }
 
     public function generateUniqueId()
     {
         do {
             $id = random_int(1000000, 9999999) + 10000000000;
-        } while (Account::where("account_id", $id)->first());
+        } while (Todolist::where("account_id", $id)->first());
 
         return $id;
     }
@@ -56,7 +49,7 @@ class AccountController extends Controller
                 }
             }],
         ]);
-        $account = Account::where('id', request()->account_id)->firstOrFail();
+        $account = Todolist::where('id', request()->account_id)->firstOrFail();
         $user = User::where('id', $account->user_id)->firstOrFail();
 
         $account->balance += request()->balance;

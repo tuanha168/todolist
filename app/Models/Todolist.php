@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TemporaryTransaction extends Model
+class Todolist extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'otp',
-        'sender_id',
-        'reciver_id',
-        'amount',
-        'message',
+        'task_id',
+        'task_name'
     ];
 }
