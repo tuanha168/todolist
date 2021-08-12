@@ -16,4 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\TodoListController::class, 'index'])->name('task.show');
+Route::post('/', [App\Http\Controllers\TodoListController::class, 'create'])->name('task.store');
+Route::put('/', [App\Http\Controllers\TodoListController::class, 'update'])->name('task.update');
+Route::delete('/', [App\Http\Controllers\TodoListController::class, 'delete'])->name('task.delete');

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Todolist extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'task_id';
 
     protected $fillable = [
         'task_id',

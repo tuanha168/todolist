@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Todolist;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,45 +17,46 @@ class TodoListController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $user = Auth::user();
+        $tasks = Todolist::all();
+        return view('home', compact('user', 'tasks'));
+    }
+
     public function create()
     {
         $this->validate(request(), [
-            'account_name' => ['required', 'string', 'max:255', 'unique:accounts,account_name', 'regex:/^[A-Za-z][\sa-zA-Z0-9_-]+$/'],
-            'account_type' => ['required', 'string', 'max:255'],
+            'task_name' => ['required', 'string', 'max:255'],
+        ]);
+        $todolist = Todolist::create([
+            'task_name' => request()->task_name
         ]);
 
-        return redirect('/')->with('status', 'Successfully Created Bank Todolist!');
-    }
-
-    public function generateUniqueId()
-    {
-        do {
-            $id = random_int(1000000, 9999999) + 10000000000;
-        } while (Todolist::where("account_id", $id)->first());
-
-        return $id;
+        return redirect('/')->with('status', 'Successfully Created Task!');
     }
 
     public function update()
     {
-        $pin = Auth::user()->pin_number;
-
         $this->validate(request(), [
-            'balance' => ['required', 'numeric'],
-            'pin_number_deposit' => ['required', function ($attribute, $value, $fail) use ($pin) {
-                if ($value !== $pin) {
-                    return $fail(__('The pin number is incorrect.'));
-                }
-            }],
+            'task_name' => ['required', 'string', 'max:255'],
+            'task_id' => ['required'],
         ]);
-        $account = Todolist::where('id', request()->account_id)->firstOrFail();
-        $user = User::where('id', $account->user_id)->firstOrFail();
+        $task = Todolist::where('task_id', request()->task_id)->firstOrFail();
+        $task->task_name = request()->task_name;
+        $task->save();
 
-        $account->balance += request()->balance;
-        $account->save();
-        $user->push();
+        return redirect('/')->with('status', 'Successfully Updated Task!');
+    }
 
+    public function delete()
+    {
+        $this->validate(request(), [
+            'task_id' => ['required'],
+        ]);
+        $task = Todolist::where('task_id', request()->task_id)->firstOrFail();
+        $task->delete();
 
-        return redirect('/')->with('status', 'Successfully Deposited!');
+        return redirect('/')->with('status', 'Successfully Deleted Task!');
     }
 }
